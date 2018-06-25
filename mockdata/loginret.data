@@ -1,0 +1,15 @@
+{
+    code: '0',
+    data: {
+        session: 'hello,session',
+        userinfo: {
+            name: 'rcc',
+            sex: 'mail',
+            age: 25
+        },
+        project: {
+            id: '123',
+            name: 'project111'
+        }
+    }
+}

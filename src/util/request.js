@@ -1,31 +1,22 @@
-import fetch from 'dva/fetch';
+/**
+ * Created by RCC on 2018/6/22.
+ *  options释义
+        post接口成功失败，界面都会提示，需提示语句
+        options = {
+            successCallback: function, // 成功回调
+            failCallback: function, // 失败回调
+            successAlertMsg: '操作成功', // 成功提示语。默认：post请求提示，get不提示。
+            method: 'GET', // 方法
+            para: {type : 1}, //url参数
+            body: {name: 123} // post数据
+        }
+ */
 
-function parseJSON(response) {
-  return response.json();
-}
+import fetch from 'isomorphic-fetch';
+import context from '@src/context';
+import constant from '@src/constant';
 
-function checkStatus(response) {
-  if (response.status >= 200 && response.status < 300) {
-    return response;
-  }
-
-  const error = new Error(response.statusText);
-  error.response = response;
-  throw error;
-}
-
-// options释义
-// post接口成功失败，界面都会提示，需提示语句
-// options = {
-//     successCallback: function, // 成功回调
-//     failCallback: function, // 失败回调
-//     successAlertMsg: '操作成功', // 成功提示语。默认：post请求提示，get不提示。
-//     method: 'GET', // 方法
-//     para: {type : 1}, //url参数
-//     body: {name: 123} // post数据
-// }
-
-export default function request(url, options = {}) {
+export const request = (url, options = {}) => {
     // 1,url处理
     if (options.para) {
         let _suffix = '';
@@ -40,41 +31,64 @@ export default function request(url, options = {}) {
     }
     // headers处理
     options.headers = {
+        Accept: 'application/json',
         'Content-Type': 'application/json'
-    }
+    };
+    options.credentials = 'include';
     // method处理
     if (!options.method) {
         options.method = 'GET';
     }
+    // body 处理
+    if (options.body) {
+        options.body = JSON.stringify(options.body);
+    }
+    // 通知request
+    context.dispatch({type: `${options.type}_${constant.request}`, payload: options});
 
-    return fetch(url, options)
-    .then(checkStatus)
-    .then(parseJSON)
-    .then(data => {
-        // 成功获取后台数据
-        console.log(data)
-        if (data && data.code === 0) {
-            if (options.successCallback) {
-                options.successCallback(data)
+    return fetch(`/api${url}`, options).then((res) => {
+            if (res.status >= 200 && res.status < 300) {
+                return res;
             }
-            // 非get请求默认提示
-            if (options.method !== 'GET') {
-                window.alert(options.successAlertMsg || '操作成功')
+
+            const error = new Error(res.statusText);
+            error.response = res;
+            throw error;
+        })
+        .then((res) => {
+            return res.json();
+        })
+        .then(res => {
+            // 成功获取后台数据
+            console.log(res);
+            if (res && res.code === '0') {
+                // 执行回调
+                if (options.successCallback) {
+                    options.successCallback(res);
+                }
+                // 非get请求默认提示
+                // 暂略
+
+                // 成功通知
+                context.dispatch({type: `${options.type}_${constant.success}`, payload: {...options, response: res}});
+            } else {
+                // 给出错误提示
+                console.log(res);
+                if (options.failCallback) {
+                    options.failCallback(res);
+                }
+                // 失败通知
+                context.dispatch({type: `${options.type}_${constant.fail}`, payload: {...options, response: res}});
             }
-        } else {
-            // 给出错误提示
-            console.log(data)
+            return res;
+        })
+        .catch(error => {
+            // 网络连接错误，或者前端语法错误
+            console.log(error);
             if (options.failCallback) {
-                options.failCallback(data)
+                options.failCallback(error);
             }
-        }
-        return data;
-    })
-    .catch(err => {
-        // 连接错误，或者前端语法错误
-        console.log(err);
-        if (options.failCallback) {
-            options.failCallback(err)
-        }
-    });
-}
+            // 失败通知
+            context.dispatch({type: `${options.type}_${constant.fail}`, payload: {...options, error}});
+        });
+};
