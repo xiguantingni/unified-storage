@@ -23,7 +23,7 @@ class LoginForm extends React.Component {
                         method: 'POST',
                         body: values,
                         successCallback: () => {
-                            this.props.history.push('/login')
+                            this.props.history.push('/overview');
                         }
                     }
                 })

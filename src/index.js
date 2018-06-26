@@ -10,7 +10,7 @@ import context from '@src/context';
 import reducers from '@src/reducers';
 import Login from '@page/login/view';
 import Main from '@page/main/view';
-import { Route, BrowserRouter, Switch, Redirect } from 'react-router-dom';
+import { Route, BrowserRouter, Switch } from 'react-router-dom';
 import './common.css';
 
 let store = createStore(reducers);
@@ -20,8 +20,8 @@ ReactDom.render(
     <Provider store={store}>
         <BrowserRouter>
             <Switch>
-                <Route path="/login/" exact component={Login} />
-                <Route path="/main/" exact component={Main} />
+                <Route path="/login" component={Login} />
+                <Route path="/" component={Main} />
             </Switch>
         </BrowserRouter>
     </Provider>,
