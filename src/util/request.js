@@ -50,7 +50,6 @@ export const request = (url, options = {}) => {
             if (res.status >= 200 && res.status < 300) {
                 return res;
             }
-
             const error = new Error(res.statusText);
             error.response = res;
             throw error;
@@ -62,21 +61,16 @@ export const request = (url, options = {}) => {
             // 成功获取后台数据
             console.log(res);
             if (res && res.code === '0') {
-                // 执行回调
-                if (options.successCallback) {
-                    options.successCallback(res);
-                }
-                // 非get请求默认提示
-                // 暂略
-
+                // 成功回调
+                options.successCallback && options.successCallback(res);
                 // 成功通知
                 context.dispatch({type: `${options.type}_${constant.success}`, payload: {...options, response: res}});
+
+                // 非get请求默认提示
+                // 暂略
             } else {
-                // 给出错误提示
-                console.log(res);
-                if (options.failCallback) {
-                    options.failCallback(res);
-                }
+                // 失败回调
+                options.failCallback && options.failCallback(res);
                 // 失败通知
                 context.dispatch({type: `${options.type}_${constant.fail}`, payload: {...options, response: res}});
             }
@@ -85,9 +79,8 @@ export const request = (url, options = {}) => {
         .catch(error => {
             // 网络连接错误，或者前端语法错误
             console.log(error);
-            if (options.failCallback) {
-                options.failCallback(error);
-            }
+            // 失败回调
+            options.failCallback && options.failCallback(error);
             // 失败通知
             context.dispatch({type: `${options.type}_${constant.fail}`, payload: {...options, error}});
         });

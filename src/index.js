@@ -8,8 +8,10 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import context from '@src/context';
 import reducers from '@src/reducers';
-import Login from '@page/login/view'
-import { Route, BrowserRouter, Switch, Redirect } from 'react-router-dom'
+import Login from '@page/login/view';
+import Main from '@page/main/view';
+import { Route, BrowserRouter, Switch, Redirect } from 'react-router-dom';
+import './common.css';
 
 let store = createStore(reducers);
 context.dispatch = store.dispatch;
@@ -19,8 +21,7 @@ ReactDom.render(
         <BrowserRouter>
             <Switch>
                 <Route path="/login/" exact component={Login} />
-                <Route path="/overview/" exact component={Login} />
-                <Redirect to="/overview/" />
+                <Route path="/main/" exact component={Main} />
             </Switch>
         </BrowserRouter>
     </Provider>,

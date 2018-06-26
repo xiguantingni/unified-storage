@@ -1,7 +1,7 @@
 {
-  "name": "fistdemo",
+  "name": "stor-ultra",
   "version": "1.0.0",
-  "description": "first demo ----",
+  "description": "stor-ultra front",
   "main": "index.js",
   "scripts": {
     "test": "echo test",
@@ -9,7 +9,7 @@
     "build": "webpack --config webpack.prud.config.js"
   },
   "keywords": [
-    "first"
+    "stor-ultra front"
   ],
   "author": "rcc",
   "license": "ISC",

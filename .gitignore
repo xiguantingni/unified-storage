@@ -6,8 +6,5 @@
 # production
 /dist
 
-# misc
-npm-debug.log*
-
 # edit config
 /.idea

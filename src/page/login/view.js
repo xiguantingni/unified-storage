@@ -12,7 +12,7 @@ const FormItem = Form.Item;
 
 class LoginForm extends React.Component {
     handleSubmit = (e) => {
-        e.preventDefault()
+        e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 console.log(values);
