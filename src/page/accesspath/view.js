@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 
 class AccessPath extends React.Component {
     render() {
-        console.log('accesspath-----------------')
         return (
             <div>这是访问路径页面</div>
         )

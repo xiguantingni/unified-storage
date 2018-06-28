@@ -11,7 +11,7 @@ import reducers from '@src/reducers';
 import Login from '@page/login/view';
 import Main from '@page/main/view';
 import { Route, BrowserRouter, Switch } from 'react-router-dom';
-import './common.css';
+import './common.less';
 
 let store = createStore(reducers);
 context.dispatch = store.dispatch;

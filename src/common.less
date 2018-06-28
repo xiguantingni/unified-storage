@@ -1,0 +1,80 @@
+#app {
+    height: 100%;
+}
+
+ol, ul {
+    list-style: none;
+}
+:focus {
+    outline: 0;
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: 'Microsoft YaHei', 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: white;
+    height: 100%;
+}
+
+a, a:hover, a:focus {
+    outline: medium none;
+    text-decoration: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0;
+}
+input::-ms-clear {
+    display: none;
+}
+
+button, button:focus{
+    outline: none;
+}
+
+caption, th, td {
+    text-align: left;
+    font-weight: normal;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: "";
+}
+blockquote, q {
+    quotes: "" "";
+}
+
+.clearfix {
+&::after {
+     content: ".";
+     display: block;
+     clear: both;
+     visibility: hidden;
+     line-height: 0;
+     height: 0;
+ }
+}
+
+::-webkit-input-placeholder {
+    color: #ddd;
+}
+
+::-moz-placeholder {
+    color: #ddd;
+    opacity: 1;
+}
+
+:-moz-placeholder {
+    color: #ddd;
+}
+
+:-ms-input-placeholder {
+    color: #ddd;
+}
