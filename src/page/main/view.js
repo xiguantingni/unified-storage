@@ -9,7 +9,6 @@ const { Header, Content, Sider, Footer } = Layout;
 import { connect } from 'react-redux';
 import { BrowserRouter, Route, Switch, Redirect, Link } from 'react-router-dom';
 import routes from '@src/route';
-import { findInArray } from '@util';
 import './index.less';
 
 class Main extends React.Component {
