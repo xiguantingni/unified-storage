@@ -7,14 +7,17 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-    entry: ['babel-polyfill', path.resolve(__dirname, './src/index.js')],
+    entry: ['babel-polyfill', './src/index.js'],
     output: {
-        path: path.resolve(__dirname, './dist'), // 输出的路径
+        path: path.resolve(__dirname, 'dist'), // 输出的路径
+        //publicPath: '/',
         filename: 'bundle.js'  // 打包后文件
     },
     resolve: {
         alias: {
-            '@page': path.resolve(__dirname, './src/page')
+            '@src': path.resolve(__dirname, './src'),
+            '@page': path.resolve(__dirname, './src/page'),
+            '@util': path.resolve(__dirname, './src/util')
         }
     },
     module: {
@@ -26,7 +29,7 @@ module.exports = {
                     options: {
                         presets: ['es2015', 'stage-0', 'react'],
                         plugins: [
-                            ['import', { libraryName: 'antd', style: "css" }]
+                            ['import', { libraryName: 'antd', style: 'css' }]
                         ]
                     }
                 },
@@ -49,14 +52,8 @@ module.exports = {
                 })
             },
             {
-                test: /\.(png|jpg|jpeg|gif|eot|ttf|woff|woff2|svg|svgz|tmpl)(\?.+)?$/,
-                use: [{
-                    loader: 'url-loader',
-                    options: {
-                        limit: 8192,
-                        name: 'assets/[name].[ext]?[hash:7]'
-                    }
-                }]
+                test: /.(jpg|png|gif|svg)$/,
+                use: ['url-loader?limit=8192&name=./[name].[ext]']
             }
         ]
     },
@@ -81,10 +78,18 @@ module.exports = {
     mode: 'production',
     devtool: 'source-map',
     devServer: {
-        contentBase: path.resolve(__dirname, './dist'),
+        publicPath: "/",
         host:'0.0.0.0',
-        port: 9090,
+        port: 8080,
         historyApiFallback: true,
-        stats: "errors-only"
+        stats: "errors-only",
+        proxy: {
+            '/api': {
+                target: 'http://127.0.0.1:8888',
+                pathRewrite: {"^/api" : ""},
+                secure: false,
+                changeOrigin: true
+            }
+        }
     }
 };

@@ -127,7 +127,7 @@ class Main extends React.Component {
                     <Layout style={{width: 'calc(100% - 200px)'}}>
                         <Header style={{background: '#fff', height: 48, lineHeight: '48px'}}>
                             <Button style={{marginRight: 8}} type="primary"><Link to="/monitorcenter">监控中心</Link></Button>
-                            <Button type="primary"><Link to="/topologymanage">拓扑管理</Link></Button>
+                            <Button type="primary"><Link to="/resourcemanage/topologymanage">拓扑管理</Link></Button>
                         </Header>
                         {this.renderBreadcrumb()}
                         <Content style={{ background: '#fff', padding: 12, margin: '0 24px'}}>
