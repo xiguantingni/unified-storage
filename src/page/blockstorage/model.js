@@ -9,7 +9,15 @@ const initState = {
     tableShowType: 'overview',  // overview卷总览  snapshot卷快照  performance卷性能,
     tableRows: [],
     tableRowsError: null,
-    isFetchRows: false
+    isFetchRows: false,
+    pagination: {
+        current: 1,
+        pageSize: 10,
+        pageSizeOptions: ['10', '20', '50'],
+        showQuickJumper: true,
+        showSizeChanger: true,
+        total: 0
+    }
 };
 
 export default {
@@ -26,7 +34,11 @@ export default {
                 return {
                     ...state,
                     tableRows: payload.response.data.rows || [],
-                    isFetchRows: false
+                    isFetchRows: false,
+                    pagination: {
+                        ...state.pagination,
+                        total: payload.response.data.total
+                    }
 
                 };
             case `${namespace}/volumeList_${constant.fail}`:
@@ -34,6 +46,21 @@ export default {
                     ...state,
                     tableRowsError: payload.err,
                     isFetchRows: false
+                };
+            case `${namespace}/pagination`:
+                const { current, pageSize } = state.pagination;
+                return {
+                    ...state,
+                    pagination: {
+                        ...state.pagination,
+                        current: payload.page || current,
+                        pageSize: payload.size || pageSize
+                    }
+                };
+            case `${namespace}/showTypeChange`:
+                return {
+                    ...state,
+                    tableShowType: payload.value
                 };
             default:
                 return state
