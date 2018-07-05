@@ -173,7 +173,13 @@ class BlockStorage extends React.Component {
                         >
                             创建
                         </Button>
-                        <Button icon="minus" type="danger" disabled={isFetchRows}>删除</Button>
+                        <Button
+                            icon="minus"
+                            type="danger"
+                            disabled={isFetchRows}
+                        >
+                            删除
+                        </Button>
                     </div>
                     <Radio.Group value={tableShowType} onChange={this.handleShowTypeChange.bind(this)}>
                         <Radio.Button value="overview">卷总览</Radio.Button>
