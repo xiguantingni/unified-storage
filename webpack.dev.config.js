@@ -27,10 +27,11 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ['es2015', 'stage-0', 'react'],
-                        plugins: [
-                            ['import', { libraryName: 'antd', style: 'css' }]
-                        ]
+                        presets: ['es2015', 'stage-0', 'react']
+                        //按需导入样式文件
+                        //plugins: [
+                        //    ['import', { libraryName: 'antd', style: 'css' }]
+                        //]
                     }
                 },
                 exclude: /node_modules/
