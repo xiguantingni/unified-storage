@@ -55,7 +55,14 @@ class AccessPath extends React.Component {
                 trigger: 'axis'
             },
             legend: {
-                data:['cpu','网络','硬盘']
+                data: ['cpu','网络','硬盘'],
+                tooltip: {
+                    show: true,
+                    formatter: (pa) => {
+                        return "123456"
+                    }
+                },
+                animation: false
             },
             toolbox: {
                 show: true,

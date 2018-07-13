@@ -4,15 +4,23 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import Websocket from 'react-websocket';
+import PropTypes from 'prop-types';
+import { Spin, Icon } from 'antd';
+import Loading from '@component/loading';
 import * as echarts from 'echarts/lib/echarts';
 import 'echarts/lib/chart/pie';
 import 'echarts/lib/component/title';
 
 class AccessPath extends React.Component {
+
     constructor(props) {
         super(props);
         this.setPieOption = this.setPieOption.bind(this);
         this.initPie = this.initPie.bind(this);
+        this.state = {
+            count: 90
+        };
     }
 
     initPie() {
@@ -22,7 +30,7 @@ class AccessPath extends React.Component {
         //我们要定义一个setPieOption函数将data传入option里面
         let options = this.setPieOption(data);
         //设置options
-        myChart.setOption(options)
+        myChart.setOption(options);
     }
 
     componentDidMount() {
@@ -32,10 +40,35 @@ class AccessPath extends React.Component {
     componentDidUpdate() {
         this.initPie()
     }
+
+    handleData(data) {
+        let result = JSON.parse(data);
+        this.setState({count: this.state.count + result.movement});
+    }
+
+    // Websocket示例
+    //<Websocket
+    //url='ws://localhost:8888/live/product/12345/'
+    //onMessage={this.handleData.bind(this)}
+    ///>
+
     render() {
         return (
-            <div className="pie-react" style={{display: 'flex', justifyContent: 'center'}}>
-                <div ref={(c) => this.pie = c} style={{width: "300px", height: "200px"}}></div>
+            <div>
+                <div className="pie-react" style={{display: 'flex', justifyContent: 'center'}}>
+                    <div ref={(c) => this.pie = c} style={{width: "300px", height: "200px"}}></div>
+                    <div>
+                        Count: <strong>{this.state.count}</strong>
+                    </div>
+                </div>
+                <div style={{width: '100%', height: 300, border: '1px solid grey'}}>
+                    <Loading
+                        tip="loading..."
+                        size="small"
+                        delay={1000}
+                        wrapperClassName="aaa"
+                    />
+                </div>
             </div>
         )
     }
@@ -48,7 +81,7 @@ class AccessPath extends React.Component {
             {value: 2, name: "否"}
         ];
 
-        return {
+        const option1 = {
             title: {
                 id: '123',
                 show: true,
@@ -104,7 +137,17 @@ class AccessPath extends React.Component {
                     }
                 }
             ]
-        }
+        };
+
+        const option2 = {
+            series: [{
+                type: 'liquidFill',
+                data: [0.6, 0.5, 0.4, 0.3],
+                radius: '80%'
+            }]
+        };
+
+        return option1;
     }
 }
 
