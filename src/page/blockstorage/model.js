@@ -27,8 +27,11 @@ export default {
             case `${namespace}/volumeList_${constant.request}`:
                 return {
                     ...state,
-                    isFetchRows: true
-
+                    isFetchRows: true,
+                    tableRows: [],
+                    pagination: {
+                        total: 0
+                    }
                 };
             case `${namespace}/volumeList_${constant.success}`:
                 return {
