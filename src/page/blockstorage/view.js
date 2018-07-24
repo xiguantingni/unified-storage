@@ -5,6 +5,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { dispatch } from '@util/dispatch';
+import propTypes from 'prop-types';
 import { Row, Radio, Button, Divider, Table } from 'antd';
 
 class BlockStorage extends React.Component {
