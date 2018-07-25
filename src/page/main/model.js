@@ -14,7 +14,7 @@ export default {
             case 'common/updateBreadcrumb':
                 if (payload.update) {
                     return {
-                        breadcrumb: update(state.breadcrumb)
+                        breadcrumb: payload.update(state.breadcrumb)
                     }
                 }
                 return state;

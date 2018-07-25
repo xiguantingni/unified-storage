@@ -11,7 +11,7 @@ import { connect } from 'react-redux'
 const FormItem = Form.Item;
 
 class LoginForm extends React.Component {
-    handleSubmit = (e) => {
+    handleSubmit(e) {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {

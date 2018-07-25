@@ -8,6 +8,7 @@ const __data = [["2005-01-01",63],["2005-01-02",118],["2005-01-03",100],["2005-0
 import React from 'react';
 import { connect } from 'react-redux';
 import { dispatch } from '@util/dispatch';
+import Loading from '@component/loading'
 import * as echarts from 'echarts/lib/echarts';
 import 'echarts/lib/chart/scatter';
 import 'echarts/lib/chart/line';
@@ -53,6 +54,9 @@ class Overview extends React.Component {
         return (
             <div className="pie-react">
                 <div ref={(c) => this.pie = c} style={{width: "100%", height: "400px"}}></div>
+                <div style={{width: '100%', height:  300, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid'}}>
+                    <Loading />
+                </div>
             </div>
         )
     }
