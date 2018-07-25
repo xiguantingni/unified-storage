@@ -60,7 +60,12 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: [ 'style-loader', 'css-loader' ]
+                //use: [ 'style-loader', 'css-loader' ]
+                use: [{
+                    loader: "style-loader"
+                }, {
+                    loader: "css-loader"
+                }]
             },
             {
                 test: /\.less$/,
@@ -73,7 +78,7 @@ module.exports = {
                 }]
             },
             {
-                test: /.(jpg|png|gif|svg)$/,
+                test: /.(png|jpg|jpeg|gif|eot|ttf|woff|woff2|svg|svgz|tmpl)$/,
                 use: ['url-loader?limit=8192&name=./[name].[ext]']
             }
         ]

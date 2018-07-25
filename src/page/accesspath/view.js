@@ -64,12 +64,7 @@ class AccessPath extends React.Component {
                     </div>
                 </div>
                 <div style={{width: '100%', height: 300, border: '1px solid grey', display: 'none'}}>
-                    <Loading
-                        tip="loading..."
-                        size="small"
-                        delay={1000}
-                        wrapperClassName="aaa"
-                    />
+                    <Loading />
                 </div>
             </div>
         )
