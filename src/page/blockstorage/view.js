@@ -6,22 +6,20 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { dispatch } from '@util/dispatch';
 import propTypes from 'prop-types';
-import { Row, Radio, Button, Divider, Table } from 'antd';
+import { Row, Radio, Button, Divider } from 'antd';
+import Table from '@component/table';
 
 class BlockStorage extends React.Component {
 
     constructor(props) {
         super(props);
+        this.handleSorter = this.handleSorter.bind(this);
+        this.paras = {}
     }
     componentDidMount() {
-        dispatch({
-            type: 'blockStorage/volumeList',
-            payload: {
-                url: '/volume'
-            }
-        });
+        this.fetchVolumeList();
     }
-    refreshClick() {
+    fetchVolumeList() {
         dispatch({
             type: 'blockStorage/volumeList',
             payload: {
@@ -30,7 +28,7 @@ class BlockStorage extends React.Component {
         });
     }
     getColumns() {
-        const { tableShowType } = this.props;
+        const { tableShowType, sortField, sortOrder } = this.props;
         let columns = [];
         if (tableShowType === 'overview') {
             columns = [
@@ -38,18 +36,26 @@ class BlockStorage extends React.Component {
                     title: '名称',
                     dataIndex: 'name',
                     key: 'name',
-                    sorter: (a, b) => ( a > b),
-                    sortOrder: "ascend"
+                    sorter: true // true, false(无), function(升序)
                 },
                 {
                     title: '状态',
                     dataIndex: 'status',
-                    key: 'status'
+                    key: 'status',
+                    filter: {
+                        items: [
+                            {text: '健康', value: '健康', disabled: false},
+                            {text: '不健康', value: '2', disabled: false}
+                        ],
+                        placement: 'bottomLeft',
+                        trigger: 'click'
+                    }
                 },
                 {
                     title: '存储池',
                     dataIndex: 'poolname',
                     key: 'poolname'
+
                 },
                 {
                     title: '访问路径',
@@ -117,27 +123,28 @@ class BlockStorage extends React.Component {
 
         return columns;
     }
+    //getPagination() {
+    //    const { pagination } = this.props;
+    //    return {
+    //        ...pagination,
+    //        onChange: (page, pageSize) => {
+    //            dispatch({
+    //                type: 'blockStorage/pagination',
+    //                payload: { page, pageSize }
+    //            });
+    //            this.fetchVolumeList();
+    //        },
+    //        onShowSizeChange: (current, size) => {
+    //            dispatch({
+    //                type: 'blockStorage/pagination',
+    //                payload: { current, size }
+    //            });
+    //            this.fetchVolumeList();
+    //        }
+    //    }
+    //}
     getPagination() {
-        const { pagination } = this.props;
-        return {
-            ...pagination,
-            onChange: (page, pageSize) => {
-                dispatch({
-                    type: 'blockStorage/pagination',
-                    payload: { page, pageSize }
-                });
-            },
-            onShowSizeChange: (current, size) => {
-                dispatch({
-                    type: 'blockStorage/pagination',
-                    payload: { current, size }
-                });
-            },
-            showTotal: (total, range) => {
-                const show = `显示 ${range[0]} 至 ${range[1]} 项结果， 共 ${total} 项`;
-                return show;
-            }
-        }
+        return { total: this.props.pagination.total }
     }
     getRowSelection() {
         return {
@@ -154,6 +161,14 @@ class BlockStorage extends React.Component {
             }
         })
     }
+    // 服务端排序，直接请求即可；客户端排序，sort回调函数，默认字符串大小比对；
+    handleSorter(field, order) {
+        this.fetchVolumeList();
+    }
+    handleFindChange() {
+        console.log(arguments);
+        //this.fetchVolumeList();
+    }
     render() {
         const { tableRows, tableShowType, isFetchRows } = this.props;
         return (
@@ -163,7 +178,7 @@ class BlockStorage extends React.Component {
                         <Button
                             type="primary"
                             icon="reload"
-                            onClick={this.refreshClick.bind(this)}
+                            onClick={this.fetchVolumeList.bind(this)}
                             disabled={isFetchRows}
                             style={{marginRight: 8}}
                         />
@@ -196,6 +211,8 @@ class BlockStorage extends React.Component {
                     pagination={this.getPagination()}
                     rowSelection={this.getRowSelection()}
                     loading={isFetchRows}
+                    findMode="local"
+                    findChange={this.handleFindChange.bind(this)}
                 />
             </div>
         )

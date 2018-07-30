@@ -13,7 +13,7 @@
 .loading-container .item {
     width: 14%;
     height: 100%;
-    background-color: blue;
+    background-color: #1890ff;
     animation:loading-item .5s infinite;
 }
 .loading-container .item-1 { animation-delay: .1s }

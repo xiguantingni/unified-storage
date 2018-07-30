@@ -10,12 +10,9 @@ const initState = {
     tableRows: [],
     tableRowsError: null,
     isFetchRows: false,
+    sortField: '', // 此处是默认排序
+    sortOrder: true,
     pagination: {
-        current: 1,
-        pageSize: 10,
-        pageSizeOptions: ['10', '20', '50'],
-        showQuickJumper: true,
-        showSizeChanger: true,
         total: 0
     }
 };
@@ -28,10 +25,7 @@ export default {
                 return {
                     ...state,
                     isFetchRows: true,
-                    tableRows: [],
-                    pagination: {
-                        total: 0
-                    }
+                    tableRows: []
                 };
             case `${namespace}/volumeList_${constant.success}`:
                 return {
@@ -50,16 +44,22 @@ export default {
                     tableRowsError: payload.err,
                     isFetchRows: false
                 };
-            case `${namespace}/pagination`:
-                const { current, pageSize } = state.pagination;
-                return {
-                    ...state,
-                    pagination: {
-                        ...state.pagination,
-                        current: payload.page || current,
-                        pageSize: payload.size || pageSize
-                    }
-                };
+            //case `${namespace}/pagination`:
+            //    const { current, pageSize } = state.pagination;
+            //    return {
+            //        ...state,
+            //        pagination: {
+            //            ...state.pagination,
+            //            current: payload.page || payload.current || current,
+            //            pageSize: payload.size || payload.pageSize || pageSize
+            //        }
+            //    };
+            //case `${namespace}/sorter`:
+            //    return {
+            //        ...state,
+            //        sortField: payload.field,
+            //        sortOrder: payload.order
+            //    };
             case `${namespace}/showTypeChange`:
                 return {
                     ...state,

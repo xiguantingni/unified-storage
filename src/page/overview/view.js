@@ -55,7 +55,7 @@ class Overview extends React.Component {
             <div className="pie-react">
                 <div ref={(c) => this.pie = c} style={{width: "100%", height: "400px"}}></div>
                 <div style={{width: '100%', height:  300}}>
-                    <Loading />
+                    <Loading type="small" />
                 </div>
                 <div className="iconfont icon-add" style={{fontSize: '40px'}}></div>
             </div>
